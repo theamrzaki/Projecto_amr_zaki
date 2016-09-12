@@ -1,0 +1,474 @@
+﻿@model IEnumerable<member_project.Models.Member>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    var Projects = (List<member_project.Models.Project>)ViewBag.Projects;
+    if (Projects != null)
+     {
+        <div style="margin-top:50px">
+        <h4>Specify a project</h4>
+
+        <select  class="drop_down_projects">
+
+            <option value="0">   </option>
+
+            @foreach (var item in Projects)
+            {
+                <option value="@item.ID">@item.Name</option>
+
+            }
+
+
+        </select>
+    </div>
+
+    }
+
+    if (ViewBag.selected_project != null)
+    {
+        <h2>Members of @ViewBag.selected_project</h2>
+    }
+    else
+    {
+        <h2>All Members</h2>
+    }
+
+
+}
+
+
+
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+
+<div id="create_member" class="popup_forms">
+    <!-- Popup Div Starts Here -->
+    <div class="popupContact">
+        <!-- Contact Us Form -->
+        <form action="#" id="form" method="post" name="form">
+            <img id="close" src="~/Content/close-03.png" onclick="div_hide()">
+            <h2>Create a Member</h2>
+            <hr>
+            <input id="Create_Name" name="name" placeholder="Name" type="text">
+            <input id="Create_Title" placeholder="Title" type="text" />
+
+            <input id="Create_ProjectID" style="display:none"   />
+
+            <a  class="ok_button" id="done_create_member">Done</a>
+        </form>
+    </div>
+    <!-- Popup Div Ends Here -->
+</div>
+
+<div id="Edit_member_form" class="popup_forms">
+    <!-- Popup Div Starts Here -->
+    <div class="popupContact">
+        <!-- Contact Us Form -->
+        <form action="#" id="form" class="form" method="post" name="form">
+            <img id="close" src="~/Content/close-03.png" onclick="div_hide_edit()">
+            <h2>Edit the Member</h2>
+            <hr>
+            <input id="Edit_Name" name="name" placeholder="Name" type="text">
+            <input id="Edit_Title" placeholder="Title" type="text" />
+                       
+            <input id="Edit_MemberID" style="display:none" />
+
+            <a href="javascript:%20done_edit()" class="ok_button" id="done_edit_member">Done</a>
+        </form>
+    </div>
+    <!-- Popup Div Ends Here -->
+</div>
+
+<div id="details_member_form" class="popup_forms">
+    <!-- Popup Div Starts Here -->
+    <div class="popupContact">
+        <!-- Contact Us Form -->
+        <form action="#" id="form" class="form" method="post" name="form">
+            <img id="close" src="~/Content/close-03.png" onclick="div_hide_details()">
+            <h2>Project Details</h2>
+            <hr>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>details_name:</td>
+                        <td><p id="details_Name" /></td>
+                    </tr>
+                    <tr>
+                        <td>details_Title:</td>
+                        <td><p id="details_Title" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a class="ok_button" id="details_done">Done</a>
+
+        </form>
+    </div>
+    <!-- Popup Div Ends Here -->
+</div>
+
+<div id="delete_member_form" class="popup_forms">
+    <!-- Popup Div Starts Here -->
+    <div class="popupContact">
+        <!-- Contact Us Form -->
+        <form action="#" id="form" class="form" method="post" name="form">
+            <img id="close" src="~/Content/close-03.png" onclick="div_delete_hide()">
+            <h2>Delete the Member</h2>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Member's name:</td>
+                        <td><p id="delete_name" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            Do you really want to delete ??
+            <a class="" id="Delete_done" style="background-color:red !important;">Delete</a>
+            <a class="" id="Skip_delete" style="background-color:gainsboro !important;color:darkslategrey !important">Skip</a>
+
+            <input id="delete_id" style="display:none" placeholder="End Date" type="text" />
+
+        </form>
+    </div>
+    <!-- Popup Div Ends Here -->
+</div>
+<button id="popup" class="create_member_button" >+ Add a  member</button>
+
+<script>
+    function div_hide() {
+        document.getElementById('create_member').style.display = "none";
+    }
+   
+    function div_hide_edit()
+    {
+        document.getElementById('Edit_member_form').style.display = "none";
+
+    }
+    function div_hide_details()
+    {
+        document.getElementById('details_member_form').style.display = "none";
+    }
+
+    function div_delete_hide()
+    {
+        document.getElementById('delete_member_form').style.display = "none";
+    } 
+
+    function done_edit()
+    {
+        document.getElementById('edit_form').submit();
+    }
+</script>
+
+
+@*@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "Exemplo1",
+        Value = "Exemplo1"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Exemplo2",
+        Value = "Exemplo2",
+        Selected = true
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Exemplo3",
+        Value = "Exemplo3"
+    });
+}*@
+<table id="table_members" class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name);
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.Name)------@item.members.Select(o => o.ID) *@
+            <a style="cursor:pointer" id="@item.ID" class="Edit_member">@item.Name</a> 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |*@
+            <a style="cursor:pointer" id="@item.ID" class="Details_member">Details</a> |
+            @*<a style="cursor:pointer" id="@item.ID" class="Delete_member">Delete</a>*@
+
+            <img style="cursor:pointer" id="@item.ID" class="Delete_member" src="~/Content/__basket-06.png" onmouseover="this.src ='/Content/__basket_hover-07.png';" onmouseout="this.src ='/Content/__basket-06.png';" />
+        </td>
+    </tr>
+}
+
+</table>
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+
+<script src="~/Content/member_javascript.js"></script>*@
+
+@section Scripts {
+
+    <script>
+
+        var ProjectID;
+        $(document).ready(function () {
+            // Function code here.
+            ProjectID = getUrlParameter('id');
+            //  alert(ProjectID);
+        });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+
+
+        $(function () {
+            $(".create_member_button").click(function () {
+                $("#create_member").css("display", "block");
+                $("#Create_ProjectID").val(ProjectID);
+            })
+        });
+
+        $(function () {
+            $("#done_create_member").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("create_member")',
+                    data: {
+                        'idddd': $('#Create_ProjectID').val(),
+                        'name': $('#Create_Name').val(),
+                        'title': $('#Create_Title').val()
+                    },
+                    datatype: 'json',
+                    cache: false
+                })
+                    .success(function (data) {
+                        $('#table_members').html($('#table_members').html + data.new_value);
+                        $('#form').submit()
+
+                    })
+                    .error(function (xhr, ajaOptions, thrownError) { })
+            });
+
+        }
+                           );
+
+
+
+        $(function () {
+            $(".Edit_member").click(function () {
+
+                var member_id = $(this).attr("id");
+
+                $('#Edit_member_form').css('display', 'block');
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Edit_member")',
+                    data: {
+                        'iddddd': member_id
+                    },
+                    datatype: 'json',
+                    cache: false
+                })
+                    .success(function (data) {
+                        $('#Edit_Name').val(data.mem_name);
+                        $('#Edit_Title').val(data.mem_title);
+
+                        $('#Edit_MemberID').val(data.mem_id);
+                    })
+                    .error(function (xhr, ajaOptions, thrownError) { })
+            });
+
+        }
+       );
+
+        ///edit done
+        $(function () {
+            $("#done_edit_member").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Edit_member_done")',
+                    data: {
+                        'iddd': $('#Edit_MemberID').val(),
+                        'Name': $('#Edit_Name').val(),
+                        'title': $('#Edit_Title').val()
+                    },
+                    datatype: 'json',
+                    cache: false
+                })
+                    .success(function (data) {
+                        $('#table_members').html($('#table').html + data.new_value);
+                        $('#form').submit()
+                        $('.form').submit()
+
+                    })
+                    .error(function (xhr, ajaOptions, thrownError) { })
+            });
+
+        }
+       );
+
+
+
+        $(function () {
+            $(".Details_member").click(function () {
+
+                var member_id = $(this).attr("id");
+
+                $('#details_member_form').css('display', 'block');
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("details_member")',
+                    data: {
+                        'idddd': member_id
+                    },
+                    datatype: 'json',
+                    cache: false
+                })
+                    .success(function (data) {
+                        $('#details_Name').html(data.mem_name);
+                        $('#details_Title').html(data.mem_title);
+                    })
+                    .error(function (xhr, ajaOptions, thrownError) { })
+            });
+
+        }
+     );
+
+        ///details done
+        $(function () {
+            $("#details_done").click(function () {
+                $('.form').submit()
+            }
+       );
+        }
+       );
+
+
+        $(function () {
+            $(".Delete_member").click(function () {
+
+                var member_id = $(this).attr("id");
+
+                $('#delete_member_form').css('display', 'block');
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("delete_member")',
+                    data: {
+                        'iddd': member_id
+                    },
+                    datatype: 'json',
+                    cache: false
+                })
+                    .success(function (data) {
+                        $('#delete_name').html(data.mem_name);
+                        $('#delete_id').val(member_id);
+                    })
+                    .error(function (xhr, ajaOptions, thrownError) { })
+            });
+
+        }
+    );
+
+
+        ///delete done
+        $(function () {
+            $("#Delete_done").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("delete_done_")',
+                    data: {
+                        'id': $('#delete_id').val()
+                    },
+                    datatype: 'json',
+                    cache: false
+                })
+                    .success(function (data) {
+                        var id = $('#delete_id').val();
+                        $("#" + id + "").parent('td').parent('tr').remove();
+                        $('.form').submit()
+
+                    })
+                    .error(function (xhr, ajaOptions, thrownError) { })
+            });
+
+        }
+       );
+
+        ///delete done
+        $(function () {
+            $("#Skip_delete").click(function () {
+                $('.form').submit()
+            }
+       );
+        }
+       );
+
+
+        //drop down change according to project
+        $('.drop_down_projects').change(function () {
+            var project_id = $(this).val();
+            location.href = '/Members/index?id=' + project_id;
+
+          
+          @*$.ajax({
+              type: "POST",
+              url: '@Url.Action("change_project")',
+              data: {
+                  'id':project_id
+              },
+              datatype: 'json',
+              cache: false
+          })
+                  .success(function (data) {
+                      $('#table_members').empty()
+                      $('#table_members').html(data.new_value);
+       
+                      $("script").each(function () {
+                          var oldScript = this.getAttribute("src");
+                          $(this).remove();
+                          var newScript;
+                          newScript = document.createElement('script');
+                          newScript.type = 'text/javascript';
+                          newScript.src = oldScript;
+                          document.getElementsByTagName("head")[0].appendChild(newScript);
+                      });
+                  })
+       
+              .error(function (xhr, ajaOptions, thrownError) { })*@
+        });
+        
+        
+</script>
+
+}

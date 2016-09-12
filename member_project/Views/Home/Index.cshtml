@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+    <img src="~/Content/Header-08-08.png" />
+
+
+<table style="margin:auto" cellpadding="15">
+    <tbody>0
+        <tr>
+            <td><img style="cursor:pointer" onmousedown="projects_clicked()" src="~/Content/_-09.png" />
+</td>
+            <td><img style="cursor:pointer" onmousedown="all_members_clikced()" src="~/Content/_-10.png" />
+</td>
+
+        </tr>
+    </tbody>
+</table>
+@*<div class="row">
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4">
+    </div>*@
+
+    <script>
+         function projects_clicked()
+         {
+             window.location.href = '/Projects/index';
+         }
+         function all_members_clikced()
+         {
+             window.location.href = '/Members/index';
+         }
+    </script>
+</div>
+@*@Html.TextBox("value", 0)
+@Html.TextBox("value2", 0)
+@Html.TextBox("result", 0)
+
+<button id="aa">aa</button>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+            $(function ()
+            {
+                $("#aa").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("function_mvc")',
+                        data: { 'value': $('#value').val(), 'value2': $('#value2').val() },
+                        datatype: 'json',
+                        cache:false
+                    })
+                        .success(function (data)
+                        {
+                            $('#result').val(data._double);
+                        })
+                        .error(function(xhr,ajaOptions,thrownError){})
+                });
+
+            }
+                );
+
+    </script>
+
+}*@
